@@ -16,6 +16,8 @@ open Suave.Web
 open Suave.Types
 open System.Net
 open System.Text
+open Suavee.Operators
+open Suave.Filters
 
 open System
 open System.Net
