@@ -25,13 +25,16 @@ open System.Configuration;
 open System.Data.SqlClient;
 
 let getRows () =
-    let connectionString = ConfigurationManager.ConnectionStrings.["CarParkDbConnection"].ConnectionString
-    let con = new SqlConnection(connectionString)
-    con.Open()
-    let query = "SELECT COUNT(*) as Rows FROM dbo.CarParkStats"
-    use cmd = new SqlCommand(query, con)
-    let count = cmd.ExecuteScalar()
-    OK <| sprintf "Total rows: %s" (count.ToString())
+    try
+        let connectionString = ConfigurationManager.ConnectionStrings.["CarParkDbConnection"].ConnectionString
+        let con = new SqlConnection(connectionString)
+        con.Open()
+        let query = "SELECT COUNT(*) as Rows FROM dbo.CarParkStats"
+        use cmd = new SqlCommand(query, con)
+        let count = cmd.ExecuteScalar()
+        OK <| sprintf "Total rows: %s" (count.ToString())
+    with
+        ex -> OK |< (ex.ToString())
 
 let serverConfig = 
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
