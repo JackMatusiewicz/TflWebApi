@@ -24,7 +24,12 @@ open System.Net.Http
 open System.Configuration;
 open System.Data.SqlClient;
 
-let getRows () = OK "TEST3"
+let getRows () = 
+    try
+        let connectionString = ConfigurationManager.ConnectionStrings.["CarParkDbConnection"].ConnectionString
+        OK "SUCCESS"
+    with
+        | ex -> OK <| sprintf "%s" (ex.ToString())    
 
 let serverConfig = 
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
