@@ -15,6 +15,7 @@ open Suave.Http.Successful
 open Suave.Web
 open Suave.Types
 open System.Net
+open System.Text
 
 open System
 open System.Net
