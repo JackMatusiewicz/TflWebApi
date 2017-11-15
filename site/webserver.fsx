@@ -26,13 +26,14 @@ open System.Data.SqlClient;
 
 let getRows () =
     try
-        let connectionString = ConfigurationManager.ConnectionStrings.["CarParkDbConnection"].ConnectionString
-        let con = new SqlConnection(connectionString)
-        con.Open()
-        let query = "SELECT COUNT(*) as Rows FROM dbo.CarParkStats"
-        use cmd = new SqlCommand(query, con)
-        let count = cmd.ExecuteScalar()
-        OK <| sprintf "Total rows: %s" (count.ToString())
+        //let connectionString = ConfigurationManager.ConnectionStrings.["CarParkDbConnection"].ConnectionString
+        //let con = new SqlConnection(connectionString)
+        //con.Open()
+        //let query = "SELECT COUNT(*) as Rows FROM dbo.CarParkStats"
+        //use cmd = new SqlCommand(query, con)
+        //let count = cmd.ExecuteScalar()
+        //OK <| sprintf "Total rows: %s" (count.ToString())
+        OK <| sprintf "Hello!"
     with
         | ex -> OK |< (ex.ToString())
 
