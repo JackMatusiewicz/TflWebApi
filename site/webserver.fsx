@@ -26,10 +26,10 @@ open System.Data.SqlClient;
 
 let getRows () = 
     try
-        let connectionString = ConfigurationManager.ConnectionStrings.["CarParkDbConnection"].ConnectionString
-        OK "SUCCESS"
+        let connectionString = ConfigurationManager.AppSettings.["CarParkDbConnection"]
+        OK "SUCCESS2"
     with
-        | ex -> OK <| sprintf "%s" (ex.ToString())    
+        | ex -> OK <| sprintf "2 %s" (ex.ToString())    
 
 let serverConfig = 
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
