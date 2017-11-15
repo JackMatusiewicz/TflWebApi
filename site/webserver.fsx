@@ -26,8 +26,10 @@ open System.Data.SqlClient;
 
 let getRows () = 
     try
-        let connectionString = ConfigurationManager.AppSettings.["CarParkDbConnection"]
-        OK "SUCCESS2"
+        let connectionString = Environment.GetEnvironmentVariable("SQLAZURECONNSTR_CarParkDbConnection");
+        if connectionString = null then
+            OK "BAD"
+        else OK "SUCCESS3"
     with
         | ex -> OK <| sprintf "2 %s" (ex.ToString())    
 
