@@ -16,15 +16,15 @@ open Suave.Web
 open Suave.Types
 open System.Net
 
-(*open System
+open System
 open System.Net
 open System.Data
 open Newtonsoft.Json
 open System.Net.Http
 open System.Configuration;
-open System.Data.SqlClient;*)
+open System.Data.SqlClient;
 
-let getRows () = OK "TEST2"
+let getRows () = OK "TEST3"
 
 let serverConfig = 
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
