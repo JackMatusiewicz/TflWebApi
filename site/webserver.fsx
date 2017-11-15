@@ -43,4 +43,4 @@ let serverConfig =
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
     { defaultConfig with bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ] }
 
-startWebServer serverConfig (OK (getRows ())) //>=> setMimeType "application/json; charset=utf-8")
+startWebServer serverConfig ((OK (getRows ())) >=> setMimeType "application/json; charset=utf-8")
