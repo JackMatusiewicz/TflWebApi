@@ -4,10 +4,10 @@
 
 #r "../packages/FAKE/tools/FakeLib.dll"
 #r "../packages/Suave/lib/net40/Suave.dll"
-//#r "Newtonsoft.Json"
-//#r "System.Net.Http.dll"
-//#r "System.Configuration"
-//#r "System.Data"
+#r "Newtonsoft.Json"
+#r "System.Net.Http.dll"
+#r "System.Configuration"
+#r "System.Data"
 
 open Fake
 open Suave
@@ -24,7 +24,7 @@ open System.Net.Http
 open System.Configuration;
 open System.Data.SqlClient;*)
 
-let getRows () = OK "TEST"
+let getRows () = OK "TEST2"
 
 let serverConfig = 
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
