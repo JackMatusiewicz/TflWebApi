@@ -24,20 +24,22 @@ open System.Net.Http
 open System.Configuration;
 open System.Data.SqlClient;
 
-let getRows () = 
+type RowDto = {Rows : int}
+
+let getRows () =
     try
         let connectionString = Environment.GetEnvironmentVariable("SQLAZURECONNSTR_CarParkDbConnection");
         let con = new SqlConnection(connectionString)
         con.Open()
         let query = "SELECT COUNT(*) as Rows FROM dbo.CarParkStats"
         use cmd = new SqlCommand(query, con)
-        let count = cmd.ExecuteScalar()
-        OK <| sprintf "Total rows: %s" (count.ToString())
+        let count = cmd.ExecuteScalar() :?> int
+        JsonConvert.SerializeObject({Rows = count})
     with
-        | ex -> OK <| sprintf "2 %s" (ex.ToString())    
+        | ex -> ex.ToString()
 
 let serverConfig = 
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
     { defaultConfig with bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ] }
 
-startWebServer serverConfig (getRows ())
+startWebServer serverConfig ((OK (Encoding.UTF8.GetBytes (getRows ()))) >=> setMimeType "application/json; charset=utf-8")
