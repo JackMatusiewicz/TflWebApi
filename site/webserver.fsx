@@ -34,7 +34,7 @@ let getRows () =
         let count = cmd.ExecuteScalar()
         OK <| sprintf "Total rows: %s" (count.ToString())
     with
-        ex -> OK |< (ex.ToString())
+        | ex -> OK |< (ex.ToString())
 
 let serverConfig = 
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
