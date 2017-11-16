@@ -19,6 +19,8 @@ open Suave.Filters
 open Suave.Operators
 open Suave.Successful
 
+open Newtonsoft.Json
+
 open System
 open System.Net
 open System.Data
@@ -36,7 +38,7 @@ let getRows () =
         let query = "SELECT COUNT(*) as Rows FROM dbo.CarParkStats"
         use cmd = new SqlCommand(query, con)
         let count = cmd.ExecuteScalar() :?> int
-        ({TotalRows = count}).ToString()
+        JsonConvert.SerializeObject({TotalRows = count})
     with
         | ex -> sprintf "%s" (ex.ToString())    
 
