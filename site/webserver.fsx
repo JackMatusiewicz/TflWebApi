@@ -11,15 +11,10 @@
 
 open Fake
 open Suave
-open System.Net
-open System.Text
-
-open Suave.Web
-open Suave.Http
-open Suave.Filters
-open Suave.Operators
 open Suave.Successful
-open Suave.Cookie
+open Suave.Web
+open Suave.Types
+open System.Net
 
 open System
 open System.Net
@@ -29,26 +24,20 @@ open System.Net.Http
 open System.Configuration;
 open System.Data.SqlClient;
 
-type RowDto = {Rows : int}
-
-let getRows () =
+let getRows () = 
     try
         let connectionString = Environment.GetEnvironmentVariable("SQLAZURECONNSTR_CarParkDbConnection");
         let con = new SqlConnection(connectionString)
         con.Open()
         let query = "SELECT COUNT(*) as Rows FROM dbo.CarParkStats"
         use cmd = new SqlCommand(query, con)
-        let count = cmd.ExecuteScalar() :?> int
-        ({Rows = count}).ToString()
+        let count = cmd.ExecuteScalar()
+        OK <| sprintf "Total rows: %s" (count.ToString())
     with
-        | ex -> ex.ToString()
+        | ex -> OK <| sprintf "2 %s" (ex.ToString())    
 
 let serverConfig = 
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
     { defaultConfig with bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ] }
 
-let app = choose [
-    GET >=> path "/rows" >=> (OK <| getRows ())
-]
-
-startWebServer serverConfig app
+startWebServer serverConfig (getRows ())
