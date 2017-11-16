@@ -37,7 +37,7 @@ let getRows () =
         let query = "SELECT COUNT(*) as Rows FROM dbo.CarParkStats"
         use cmd = new SqlCommand(query, con)
         let count = cmd.ExecuteScalar() :?> int
-        JsonConvert.SerializeObject({Rows = count})
+        ({Rows = count}).ToString()
     with
         | ex -> ex.ToString()
 
