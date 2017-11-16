@@ -19,7 +19,6 @@ open System.Net
 open System
 open System.Net
 open System.Data
-open Newtonsoft.Json
 open System.Net.Http
 open System.Configuration;
 open System.Data.SqlClient;
@@ -38,6 +37,6 @@ let getRows () =
 
 let serverConfig = 
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
-    { defaultConfig with bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ] }
+    { defaultConfig with bindings = [ HttpBinding.create HTTP IPAddress.Loopback port ] }
 
 startWebServer serverConfig (getRows ())
