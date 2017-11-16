@@ -13,7 +13,6 @@ open Fake
 open Suave
 open Suave.Successful
 open Suave.Web
-open Suave.Types
 open System.Net
 
 open System
