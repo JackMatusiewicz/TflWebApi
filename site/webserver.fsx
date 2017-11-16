@@ -18,6 +18,7 @@ open Suave.Http
 open Suave.Filters
 open Suave.Operators
 open Suave.Successful
+open Suave.Utils.Collections
 
 open Newtonsoft.Json
 
