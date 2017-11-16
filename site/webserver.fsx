@@ -10,10 +10,14 @@
 #r "System.Data"
 
 open Fake
-open Suave
-open Suave.Successful
-open Suave.Web
 open System.Net
+
+open Suave
+open Suave.Web
+open Suave.Http
+open Suave.Filters
+open Suave.Operators
+open Suave.Successful
 
 open System
 open System.Net
@@ -41,7 +45,7 @@ let serverConfig =
     { defaultConfig with bindings = [ HttpBinding.create HTTP IPAddress.Loopback port ] }
 
 let app = choose [
-            GET >=> path "/rows" >=> OK (getRows ())
+            GET >=> path "/rows" >=> OK (getRows ()) >=> Writers.setMimeType "application/json; charset=utf-8"
         ]
 
-startWebServer serverConfig (OK (getRows ()))
+startWebServer serverConfig app
