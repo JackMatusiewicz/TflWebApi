@@ -44,4 +44,4 @@ let app = choose [
             GET >=> path "/rows" >=> OK (getRows ())
         ]
 
-startWebServer serverConfig app
+startWebServer serverConfig (OK (getRows ()))
