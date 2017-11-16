@@ -11,13 +11,15 @@
 
 open Fake
 open Suave
-open Suave.Http.Successful
-open Suave.Web
-open Suave.Types
 open System.Net
 open System.Text
-open Suave.Operators
+
+open Suave.Web
+open Suave.Http
 open Suave.Filters
+open Suave.Operators
+open Suave.Successful
+open Suave.Cookie
 
 open System
 open System.Net
