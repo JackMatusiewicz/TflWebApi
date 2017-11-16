@@ -18,7 +18,7 @@ open Suave.Http
 open Suave.Filters
 open Suave.Operators
 open Suave.Successful
-open Suave.Utils.Collections
+//open Suave.Utils.Collections
 
 open Newtonsoft.Json
 
@@ -48,7 +48,7 @@ let serverConfig =
     { defaultConfig with bindings = [ HttpBinding.create HTTP IPAddress.Loopback port ] }
 
 let app = choose [
-            GET >=> path "/rows" >=> request (fun _ -> getRows ()) >=> Writers.setMimeType "application/json; charset=utf-8"
+            GET >=> path "/rows" >=> request (fun _ -> OK <| getRows ()) >=> Writers.setMimeType "application/json; charset=utf-8"
         ]
 
 startWebServer serverConfig app
