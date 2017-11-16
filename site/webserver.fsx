@@ -44,4 +44,4 @@ let app = choose [
             GET >=> path "/rows" >=> OK (getRows ()) >=> Writers.setMimeType "application/json; charset=utf-8"
         ]
 
-startWebServer serverConfig (getRows ())
+startWebServer serverConfig app
