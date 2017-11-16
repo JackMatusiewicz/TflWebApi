@@ -46,7 +46,7 @@ let serverConfig =
     { defaultConfig with bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ] }
 
 let app = choose [
-    GET >=> path "/rows" >=> (OK <| getRows ()) >=> Writers.setMimeType "application/json; charset=utf-8"
+    GET >=> path "/rows" >=> (OK <| getRows ())
 ]
 
 startWebServer serverConfig app
