@@ -94,7 +94,7 @@ let serverConfig =
 
 let app = choose [
             GET >=> path "/rows" >=> request (fun _ -> OK <| getRows ()) >=> Writers.setMimeType "application/json; charset=utf-8"
-            pathScan "data/from/%s/to/%s" getData >=> Writers.setMimeType "application/json; charset=utf-8"
+            pathScan "/data/from/%s/to/%s" getData >=> Writers.setMimeType "application/json; charset=utf-8"
         ]
 
 startWebServer serverConfig app
