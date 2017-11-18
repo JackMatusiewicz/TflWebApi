@@ -71,21 +71,22 @@ let constructRecord (reader : SqlDataReader) =
         timestamp = reader.GetDateTime(reader.GetOrdinal("InsertTime"))
     }
 
-let getData (f : string) (t : string) : CarParkDatabaseRecord list =
+let getData ((f,t) : string * string) =
     let fromDate = DateTime.Parse(f)
     let toDate = DateTime.Parse(t)
-    use  con = getOpenConnection ()
-    let query = "SELECT TOP 5 * FROM dbo.CarParkStats a WHERE a.InsertTime >= @from AND a.InsertTime <= @to"
+    use con = getOpenConnection ()
+    let query = "SELECT * FROM dbo.CarParkStats a WHERE a.BayType != 'Disabled' AND a.InsertTime BETWEEN @from AND @to"
     use cmd = new SqlCommand(query, con)
     cmd.Parameters.Add(constructSqlParameter "@from" (SqlDbType.DateTime2) fromDate) |> ignore
     cmd.Parameters.Add(constructSqlParameter "@to" (SqlDbType.DateTime2) toDate) |> ignore
     let reader = cmd.ExecuteReader()
     if reader.HasRows then
-        [
-            while reader.Read()
-                do yield constructRecord reader
-        ]
-    else []    
+        let d = [
+                    while reader.Read()
+                        do yield constructRecord reader
+                ]
+        OK <| JsonConvert.SerializeObject(d)
+    else  OK <| "[]"
 
 let serverConfig = 
     let port = getBuildParamOrDefault "port" "8083" |> Sockets.Port.Parse
@@ -93,7 +94,7 @@ let serverConfig =
 
 let app = choose [
             GET >=> path "/rows" >=> request (fun _ -> OK <| getRows ()) >=> Writers.setMimeType "application/json; charset=utf-8"
-            pathScan "data/from/%s/to/%s" getData
+            pathScan "data/from/%s/to/%s" getData >=> Writers.setMimeType "application/json; charset=utf-8"
         ]
 
 startWebServer serverConfig app
